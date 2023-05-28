@@ -85,11 +85,6 @@ void Graphics::drawHead(Point head, Direction direction) {
     tongue.setPosition(head.x * Config::GRID_SIZE + xCellOffset, head.y * Config::GRID_SIZE + yCellOffset);
     tongue.setFillColor(sf::Color::Red);
     window->draw(tongue);
-
-    //sf::RectangleShape Eye2(sf::Vector2f(eyeSize, eyeSize));
-    //Eye1.setPosition(head.x * Config::GRID_SIZE, head.y * Config::GRID_SIZE);
-    //Eye1.setFillColor(sf::Color::Red);
-    //window->draw(Eye1);
 }
 
 void Graphics::drawBody(Point point) {

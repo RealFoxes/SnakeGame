@@ -1,3 +1,5 @@
 ﻿#include "Point.h"
 
-// Здесь можно добавить определения для функций, связанных с Point (если такие имеются)
+bool Point::operator==(const Point& other) const {
+    return x == other.x && y == other.y;
+}

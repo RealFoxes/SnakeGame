@@ -4,6 +4,16 @@
 //ctor with grid info and logic where snake change position
 Snake::Snake(Game* game) {
     this->game = game;
+
+    int gridXCount = Config::WINDOW_WIDTH / Config::GRID_SIZE;
+    int gridYCount = Config::WINDOW_HEIGHT / Config::GRID_SIZE;
+
+    Point startPoint = { gridXCount / 2, gridYCount / 2 };
+    for (size_t i = 0; i < Config::SNAKE_START_SIZE; i++)
+    {
+        SnakeCells.push_back(startPoint);
+        startPoint.x++;
+    }
 }
 
 void Snake::ChangeDirection(Direction direction) {
@@ -30,29 +40,41 @@ void Snake::Move() {
         break;
     }
 
-    Point currentHead = snakeCells.front();
-    snakeCells.insert(snakeCells.begin(), { currentHead.x + xMove, currentHead.y + yMove });
-    if (!nextMoveIncreaseSize) {
-        snakeCells.pop_back();
-        nextMoveIncreaseSize = false;
+    Point currentHead = SnakeCells.front();
+    SnakeCells.insert(SnakeCells.begin(), { currentHead.x + xMove, currentHead.y + yMove });
+
+    bool isIncrease = false;
+    Point head = GetHead();
+    for (size_t i = 0; i < game->Foods.size(); ++i) {
+        Point& foodPoint = game->Foods[i];
+
+        if (head.x == foodPoint.x && head.y == foodPoint.y) {
+            isIncrease = true;
+            game->Foods.erase(game->Foods.begin() + i);
+            break;
+        }
     }
 
-    Point& newHead = snakeCells.front();
+    if (!isIncrease) {
+        SnakeCells.pop_back();
+    }
 
-    if (newHead.x > game->GridXCount)
+    Point& newHead = SnakeCells.front();
+
+    if (newHead.x > game->GridXCount - 1)
         newHead.x = 0;
 
     if (newHead.x < 0)
-        newHead.x = game->GridXCount;
+        newHead.x = game->GridXCount - 1;
 
-    if (newHead.y > game->GridYCount)
+    if (newHead.y > game->GridYCount - 1)
         newHead.y = 0;
 
     if (newHead.y < 0)
-        newHead.y = game->GridYCount;
+        newHead.y = game->GridYCount - 1;
 
-    for (size_t i = 0; i < snakeCells.size(); ++i) {
-        Point& point = snakeCells[i];
+    for (size_t i = 0; i < SnakeCells.size(); ++i) {
+        Point& point = SnakeCells[i];
 
         if (newHead.x == point.x && newHead.y == point.y) {
             game->Lose();
@@ -62,9 +84,9 @@ void Snake::Move() {
 }
 
 Point Snake::GetHead() {
-    return snakeCells.front();
+    return SnakeCells.front();
 }
 
-void Snake::IncreaseSize() {
-    nextMoveIncreaseSize = true;
+Direction Snake::GetDirection() {
+    return direction;
 }

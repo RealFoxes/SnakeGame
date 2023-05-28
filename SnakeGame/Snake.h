@@ -9,14 +9,13 @@ class Snake {
 
 private:
     Game* game;
-    std::vector<Point> snakeCells;
     Direction direction;
-    bool nextMoveIncreaseSize;
 
 public:
+    std::vector<Point> SnakeCells;
     Snake(Game* game);
     void ChangeDirection(Direction direction);
     void Move();
     Point GetHead();
-    void IncreaseSize();
+    Direction GetDirection();
 };

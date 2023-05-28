@@ -7,5 +7,5 @@ public:
     static const int GRID_SIZE = 50;
     static const int FOOD_AMOUNT_ON_SCREEN = 3;
     static const int SNAKE_START_SIZE = 4;
-    static const int GAME_SPEED = 1;
+    static const int GAME_SPEED = 5;
 };
